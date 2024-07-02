@@ -1,13 +1,13 @@
-# Tugas 15 Sanbercode MongoDB API - Node.JS Backend
+# Final Project Sanbercode MongoDB - Node.JS API
 
 ## Muhammad Ridwan Hakim
 
 ### Deploy on Localhost
 
 ```bash
-git clone https://github.com/rescenic/nodejs-tugas15.git
+git clone https://github.com/rescenic/sanber-be-57-final-project-mridwanh.git rescenic-me
 
-cd nodejs-tugas15
+cd rescenic-me
 
 npm install
 
@@ -32,4 +32,4 @@ npm run dev
 
 ### Deploy on Railway
 
-<https://rescenic-sanbercode-batch-57.up.railway.app/>
+<https://rescenic-me.up.railway.app/>
