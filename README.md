@@ -2,6 +2,10 @@
 
 ## Muhammad Ridwan Hakim
 
+### Deploy on Railway
+
+<https://rescenic-me.up.railway.app/>
+
 ### Deploy on Localhost
 
 ```bash
@@ -20,6 +24,20 @@ npm run dev
 
 ### Screenshots
 
-### Deploy on Railway
+#### 1. (DEV) Create A User with Default Role "user" and send "Registration Success" Email
 
-<https://rescenic-me.up.railway.app/>
+![npm run dev - create user](docs/final-project-1-1.png)
+
+![npm run dev - create user](docs/final-project-1-2.png)
+
+![npm run dev - create user](docs/final-project-1-3.png)
+
+![npm run dev - create user](docs/final-project-1-4.png)
+
+#### 2. (LIVE) Create A User with Default Role "user" and send "Registration Success" Email
+
+![npm run dev - create user](docs/final-project-2-1.png)
+
+![npm run dev - create user](docs/final-project-2-2.png)
+
+![npm run dev - create user](docs/final-project-2-3.png)
