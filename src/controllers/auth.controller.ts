@@ -13,10 +13,9 @@ const validateRegisterSchema = Yup.object().shape({
   username: Yup.string().required(),
   email: Yup.string().email().required(),
   password: Yup.string().required(),
-  passwordConfirmation: Yup.string().oneOf(
-    [Yup.ref("password"), ""],
-    "Passwords must match"
-  ),
+  passwordConfirmation: Yup.string()
+    .oneOf([Yup.ref("password"), ""], "Passwords must match")
+    .required(),
   role: Yup.string().oneOf(["admin", "user"]),
 });
 
@@ -28,10 +27,9 @@ const validateLoginSchema = Yup.object().shape({
 const validateProfileSchema = Yup.object().shape({
   fullName: Yup.string().required(),
   password: Yup.string().required(),
-  passwordConfirmation: Yup.string().oneOf(
-    [Yup.ref("password"), ""],
-    "Passwords must match"
-  ),
+  passwordConfirmation: Yup.string()
+    .oneOf([Yup.ref("password"), ""], "Passwords must match")
+    .required(),
   profilePicture: Yup.string(),
 });
 
@@ -137,6 +135,7 @@ export default {
         username,
         email,
         password,
+        passwordConfirmation: req.body.passwordConfirmation,
         role,
       });
 
@@ -147,7 +146,8 @@ export default {
         password,
         role: role || "user",
       });
-      res.json({
+
+      res.status(201).json({
         message: "User registered successfully",
         data: user,
       });
