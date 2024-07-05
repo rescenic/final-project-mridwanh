@@ -42,9 +42,8 @@ const send = async ({
 };
 
 // Function to render EJS template
-const render = async (template: string, data: any) => {
+const render = async (templatePath: string, data: any) => {
   try {
-    const templatePath = path.join(__dirname, "templates", template);
     const content = await ejs.renderFile(templatePath, data);
     return content as string;
   } catch (error) {

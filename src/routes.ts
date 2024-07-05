@@ -4,11 +4,11 @@ import express from "express";
 import authController from "./controllers/auth.controller";
 import authMiddleware from "./middlewares/auth.middleware";
 import aclMiddleware from "./middlewares/acl.middleware";
-
 import uploadMiddleware from "./middlewares/upload.middleware";
 import uploadController from "./controllers/upload.controller";
 import productsController from "./controllers/products.controller";
 import categoryController from "./controllers/category.controller";
+import orderController from "./controllers/order.controller";
 
 const router = express.Router();
 
@@ -42,5 +42,8 @@ router.post("/categories", categoryController.create);
 router.get("/categories/:id", categoryController.findOne);
 router.put("/categories/:id", categoryController.update);
 router.delete("/categories/:id", categoryController.delete);
+
+router.post("/orders", authMiddleware, orderController.create);
+router.get("/orders", authMiddleware, orderController.findUserOrders);
 
 export default router;

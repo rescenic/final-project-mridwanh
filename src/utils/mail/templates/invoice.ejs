@@ -1,0 +1,101 @@
+<!-- src/utils/mail/templates/invoices.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Invoice</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        -webkit-text-size-adjust: none;
+        -ms-text-size-adjust: none;
+      }
+      .email-container {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        border: 1px solid #dddddd;
+      }
+      .header {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+      }
+      .content {
+        padding: 20px;
+      }
+      .content h2 {
+        color: #333333;
+      }
+      .order-details {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .order-details th,
+      .order-details td {
+        padding: 10px;
+        border: 1px solid #dddddd;
+        text-align: left;
+      }
+      .order-details th {
+        background-color: #f2f2f2;
+      }
+      .footer {
+        background-color: #4caf50;
+        color: white;
+        text-align: center;
+        padding: 10px 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="email-container">
+      <div class="header">
+        <h1>Invoice</h1>
+      </div>
+      <div class="content">
+        <h2>Thank you for your purchase!</h2>
+        <p>Dear <%= customerName %>,</p>
+        <p>Thank you for your order. Below are the details of your purchase:</p>
+        <table class="order-details">
+          <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total</th>
+          </tr>
+          <% orderItems.forEach(function(item) { %>
+          <tr>
+            <td><%= item.name %></td>
+            <td><%= item.quantity %></td>
+            <td><%= item.price %></td>
+            <td><%= item.quantity * item.price %></td>
+          </tr>
+          <% }); %>
+          <tr>
+            <td colspan="3" style="text-align: right">
+              <strong>Grand Total:</strong>
+            </td>
+            <td><strong><%= grandTotal %></strong></td>
+          </tr>
+        </table>
+        <p>
+          If you have any questions about your order, please contact us at <%=
+          contactEmail %>.
+        </p>
+        <p>Best regards,</p>
+        <p><%= companyName %></p>
+      </div>
+      <div class="footer">
+        <p>&copy; <%= year %> <%= companyName %>. All rights reserved.</p>
+      </div>
+    </div>
+  </body>
+</html>

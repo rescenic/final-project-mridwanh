@@ -1,13 +1,13 @@
 // src/models/user.models.ts
 
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import { encrypt } from "@/utils/encryption";
 import { SECRET } from "@/utils/env";
 import mail from "@/utils/mail";
+import path from "path";
+import { IUser } from "@/utils/interfaces";
 
-const Schema = mongoose.Schema;
-
-const UserSchema = new Schema(
+const UserSchema: Schema = new Schema(
   {
     fullName: {
       type: String,
@@ -42,7 +42,7 @@ const UserSchema = new Schema(
   }
 );
 
-UserSchema.pre("save", async function (next) {
+UserSchema.pre<IUser>("save", async function (next) {
   const user = this;
   if (user.isModified("password")) {
     user.password = encrypt(SECRET, user.password);
@@ -50,11 +50,15 @@ UserSchema.pre("save", async function (next) {
   next();
 });
 
-UserSchema.post("save", async function (doc, next) {
+UserSchema.post<IUser>("save", async function (doc, next) {
   const user = doc;
 
   try {
-    const content = await mail.render("register-success.ejs", {
+    const templatePath = path.join(
+      __dirname,
+      "../utils/mail/templates/register-success.ejs"
+    );
+    const content = await mail.render(templatePath, {
       username: user.username,
     });
 
@@ -71,7 +75,7 @@ UserSchema.post("save", async function (doc, next) {
 });
 
 UserSchema.pre("updateOne", async function (next) {
-  const update = this.getUpdate() as mongoose.UpdateQuery<any>;
+  const update = this.getUpdate() as any;
   if (update && update.password) {
     update.password = encrypt(SECRET, update.password);
   }
@@ -84,6 +88,6 @@ UserSchema.methods.toJSON = function () {
   return user;
 };
 
-const UserModel = mongoose.model("User", UserSchema);
+const UserModel = mongoose.model<IUser>("User", UserSchema);
 
 export default UserModel;
