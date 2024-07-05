@@ -5,7 +5,7 @@
 		"description": "Products, Categories, Uploads API\n\nBy: Muhammad Ridwan Hakim",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "11724952",
-		"_collection_link": "https://rescenic.postman.co/workspace/Rescenic%2C-Ltd.~921be1be-1dac-49e7-86bc-07abfad55b66/collection/11724952-c72d18c6-92a8-4bdc-b31d-bcc82d7dbc82?action=share&source=collection_link&creator=11724952"
+		"_collection_link": "https://rescenic.postman.co/workspace/Rescenic%252C-Ltd.~921be1be-1dac-49e7-86bc-07abfad55b66/collection/11724952-c72d18c6-92a8-4bdc-b31d-bcc82d7dbc82?action=share&source=collection_link&creator=11724952"
 	},
 	"item": [
 		{
@@ -376,7 +376,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"email\": \"admin@toko.com\",\r\n  \"fullName\": \"Admin\",\r\n  \"password\": \"12341234\",\r\n  \"username\": \"admintoko\",\r\n  \"role\":\"admin\"\r\n}",
+							"raw": "{\r\n  \"email\": \"rescenin@gmail.com\",\r\n  \"fullName\": \"Muhammad Ridwan Hakim\",\r\n  \"password\": \"12341234\",\r\n  \"passwordConfirmation\": \"12341234\",\r\n  \"username\": \"rescenin\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -384,9 +384,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/api/auth/register",
+							"raw": "{{base_url_dev}}/api/auth/register",
 							"host": [
-								"{{base_url}}"
+								"{{base_url_dev}}"
 							],
 							"path": [
 								"api",
@@ -404,7 +404,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"email\": \"radit@mail.com\",\r\n  \"password\": \"12341234\"\r\n}",
+							"raw": "{\r\n  \"email\": \"adminrescen@gmail.com\",\r\n  \"password\": \"12341234\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -412,9 +412,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/api/auth/login",
+							"raw": "{{base_url_dev}}/api/auth/login",
 							"host": [
-								"{{base_url}}"
+								"{{base_url_dev}}"
 							],
 							"path": [
 								"api",
@@ -467,6 +467,88 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "Create Order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ODY3YjNhOTMxMzgyNDllOWY2YjZmNyIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzIwMTQ3OTg4LCJleHAiOjE3MjAxNjk1ODh9.wCAYVzqSkLFZiiDdYJI2ZYEgbeFxVCs8QDoRcOkfzaY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"orderItems\": [\r\n    {\r\n      \"name\": \"Arei Outdoor XL\",\r\n      \"productId\": \"6674094e22a3a4d9f65c283c\",\r\n      \"price\": 150000,\r\n      \"quantity\": 1\r\n    },\r\n    {\r\n      \"name\": \"Kemeja Variant 3\",\r\n      \"productId\": \"6676c3a72b9c8f0ff10274ba\",\r\n      \"price\": 30000,\r\n      \"quantity\": 3\r\n    },\r\n    {\r\n      \"name\": \"Kemeja Variant 1\",\r\n      \"productId\": \"6676c3a72b9c8f0ff10274b8\",\r\n      \"price\": 20000,\r\n      \"quantity\": 2\r\n    },\r\n    {\r\n      \"name\": \"Kemeja Variant 2\",\r\n      \"productId\": \"6676c3a72b9c8f0ff10274b9\",\r\n      \"price\": 25000,\r\n      \"quantity\": 4\r\n    }\r\n  ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_dev}}/api/orders",
+							"host": [
+								"{{base_url_dev}}"
+							],
+							"path": [
+								"api",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read User Order",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ODY3YjNhOTMxMzgyNDllOWY2YjZmNyIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzIwMTQ3OTg4LCJleHAiOjE3MjAxNjk1ODh9.wCAYVzqSkLFZiiDdYJI2ZYEgbeFxVCs8QDoRcOkfzaY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url_dev}}/api/orders",
+							"host": [
+								"{{base_url_dev}}"
+							],
+							"path": [
+								"api",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
@@ -499,7 +581,7 @@
 		},
 		{
 			"key": "base_url",
-			"value": "https://rescenic-sanbercode-batch-57.up.railway.app",
+			"value": "https://rescenic-me.up.railway.app",
 			"type": "string"
 		}
 	]

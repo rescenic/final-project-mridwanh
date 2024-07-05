@@ -2,7 +2,7 @@
 
 import { Request, Response } from "express";
 import * as Yup from "yup";
-import OrderModel, { IOrder, IOrderItem } from "@/models/order.model";
+import OrderModel from "@/models/order.model";
 import ProductModel from "@/models/products.model";
 import UserModel from "@/models/user.model";
 import { IReqUser } from "@/utils/interfaces";
@@ -10,7 +10,6 @@ import mail from "@/utils/mail";
 import path from "path";
 
 const createOrderSchema = Yup.object().shape({
-  grandTotal: Yup.number().required(),
   orderItems: Yup.array()
     .of(
       Yup.object().shape({
@@ -26,38 +25,44 @@ const createOrderSchema = Yup.object().shape({
 export default {
   async create(req: Request, res: Response) {
     const userId = (req as IReqUser).user.id;
+
     try {
       await createOrderSchema.validate(req.body);
 
-      const { grandTotal, orderItems } = req.body;
+      const { orderItems } = req.body;
 
-      // Validate product quantities
-      for (const item of orderItems) {
-        const product = await ProductModel.findById(item.productId);
-        if (!product || product.qty < item.quantity) {
-          return res.status(400).json({
-            message: "Insufficient product quantity",
-            data: null,
-          });
-        }
-      }
+      // Validate product quantities and fetch prices
+      let grandTotal = 0;
+      const validatedOrderItems = await Promise.all(
+        orderItems.map(async (item: any) => {
+          const product = await ProductModel.findById(item.productId);
+          if (!product || product.qty < item.quantity) {
+            throw new Error(`Insufficient quantity for product ${item.name}`);
+          }
+          item.price = product.price;
+          grandTotal += item.price * item.quantity;
+          return item;
+        })
+      );
 
       // Create the order
       const orderData = {
-        grandTotal,
-        orderItems,
+        orderItems: validatedOrderItems,
         createdBy: userId,
         status: "pending",
+        grandTotal: grandTotal,
       };
 
       const newOrder = await OrderModel.create(orderData);
 
-      // Update product quantities
-      for (const item of orderItems) {
-        await ProductModel.findByIdAndUpdate(item.productId, {
-          $inc: { qty: -item.quantity },
-        });
-      }
+      // Deduct product quantities
+      await Promise.all(
+        orderItems.map(async (item: any) => {
+          await ProductModel.findByIdAndUpdate(item.productId, {
+            $inc: { qty: -item.quantity },
+          });
+        })
+      );
 
       // Send invoice email
       const customer = await UserModel.findById(userId);
@@ -74,7 +79,7 @@ export default {
       );
       const emailContent = await mail.render(invoiceTemplatePath, {
         customerName: customer.fullName,
-        orderItems,
+        orderItems: validatedOrderItems,
         grandTotal,
         contactEmail: "rescenic@zohomail.com",
         companyName: "Rescenic Store",
